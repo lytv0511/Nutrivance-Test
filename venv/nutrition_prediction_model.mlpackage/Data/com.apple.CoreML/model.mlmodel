@@ -1,0 +1,343 @@
+°
+
+lambda_input
+*
+†ÄR
+Identity
+*
+†Ä¢j¢9
+#com.github.apple.coremltools.sourcetensorflow==2.13.0¢+
+$com.github.apple.coremltools.version8.2≤Ñÿ
+mainœ
+"
+lambda_input
+
+
+CoreML5ü
+CoreML5ìIdentity|
+const$
+lambda_input_to_fp16_dtype_0
+*2
+name*
+"
+ "
+lambda_input_to_fp16_dtype_0*
+val
+
+
+"
+fp16ú
+const/
+sequential_lambda_sub_y_to_fp16
+
+
+
+*5
+name-
+%
+#"!
+sequential_lambda_sub_y_to_fp16*+
+val$
+
+
+
+
+:
+$QÜhõqRSNêQ*Ní
+cast)
+dtype 
+
+lambda_input_to_fp16_dtype_0
+x
+
+lambda_input*
+lambda_input_to_fp16
+
+
+
+*
+name
+
+
+"
+cast_1º
+sub
+x
+
+lambda_input_to_fp16(
+y#
+!
+sequential_lambda_sub_y_to_fp165
+sequential_lambda_sub_cast_fp16
+
+
+
+*5
+name-
+%
+#"!
+sequential_lambda_sub_cast_fp16Ã
+constG
+7ConstantFolding_sequential_lambda_truediv_recip_to_fp16
+
+
+
+*M
+nameE
+=
+;"9
+7ConstantFolding_sequential_lambda_truediv_recip_to_fp16*+
+val$
+
+
+
+
+:
+æ,Q£
+T'~,j/e/Á
+mul(
+x#
+!
+sequential_lambda_sub_cast_fp16@
+y;
+9
+7ConstantFolding_sequential_lambda_truediv_recip_to_fp169
+#sequential_lambda_truediv_cast_fp16
+
+
+
+*9
+name1
+)
+'"%
+#sequential_lambda_truediv_cast_fp16¬
+const;
+%transpose_0_cast_fp16_to_fp32_to_fp16
+
+
+@
+*;
+name3
++
+)"'
+%transpose_0_cast_fp16_to_fp32_to_fp16*?
+val8
+
+
+@
+*"
+@model_path/weights/weight.bin@ª
+const7
+'sequential_dense_BiasAdd_bias_0_to_fp16
+
+
+
+@*=
+name5
+-
++")
+'sequential_dense_BiasAdd_bias_0_to_fp16*:
+val3
+
+
+
+@*#
+@model_path/weights/weight.binÄî
+linear3
+weight)
+'
+%transpose_0_cast_fp16_to_fp32_to_fp163
+bias+
+)
+'sequential_dense_BiasAdd_bias_0_to_fp16,
+x'
+%
+#sequential_lambda_truediv_cast_fp168
+"sequential_dense_BiasAdd_cast_fp16
+
+
+
+@*8
+name0
+(
+&"$
+"sequential_dense_BiasAdd_cast_fp16°
+relu+
+x&
+$
+"sequential_dense_BiasAdd_cast_fp165
+sequential_dense_Relu_cast_fp16
+
+
+
+@*5
+name-
+%
+#"!
+sequential_dense_Relu_cast_fp16√
+const;
+%transpose_1_cast_fp16_to_fp32_to_fp16
+
+
+@
+@*;
+name3
++
+)"'
+%transpose_1_cast_fp16_to_fp32_to_fp16*@
+val9
+
+
+@
+@*#
+@model_path/weights/weight.bin¿	ø
+const9
+)sequential_dense_1_BiasAdd_bias_0_to_fp16
+
+
+
+@*?
+name7
+/
+-"+
+)sequential_dense_1_BiasAdd_bias_0_to_fp16*:
+val3
+
+
+
+@*#
+@model_path/weights/weight.binÄJñ
+linear3
+weight)
+'
+%transpose_1_cast_fp16_to_fp32_to_fp165
+bias-
++
+)sequential_dense_1_BiasAdd_bias_0_to_fp16(
+x#
+!
+sequential_dense_Relu_cast_fp16:
+$sequential_dense_1_BiasAdd_cast_fp16
+
+
+
+@*:
+name2
+*
+("&
+$sequential_dense_1_BiasAdd_cast_fp16ß
+relu-
+x(
+&
+$sequential_dense_1_BiasAdd_cast_fp167
+!sequential_dense_1_Relu_cast_fp16
+
+
+
+@*7
+name/
+'
+%"#
+!sequential_dense_1_Relu_cast_fp16√
+const;
+%transpose_2_cast_fp16_to_fp32_to_fp16
+
+
+
+@*;
+name3
++
+)"'
+%transpose_2_cast_fp16_to_fp32_to_fp16*@
+val9
+
+
+
+@*#
+@model_path/weights/weight.bin¿Kà
+const'
+Identity_bias_0_to_fp16
+
+
+
+*-
+name%
+
+"
+Identity_bias_0_to_fp16*'
+val 
+
+
+
+
+:
+
+€9C7à7i8˚0‚
+linear3
+weight)
+'
+%transpose_2_cast_fp16_to_fp32_to_fp16#
+bias
+
+Identity_bias_0_to_fp16*
+x%
+#
+!sequential_dense_1_Relu_cast_fp16(
+Identity_cast_fp16
+
+
+
+*(
+name 
+
+"
+Identity_cast_fp16à
+const*
+"Identity_cast_fp16_to_fp32_dtype_0
+*8
+name0
+(
+&"$
+"Identity_cast_fp16_to_fp32_dtype_0*
+val
+
+
+"
+fp32í
+cast/
+dtype&
+$
+"Identity_cast_fp16_to_fp32_dtype_0
+x
+
+Identity_cast_fp16
+Identity
+
+
+*
+name
+
+
+"
+cast_0"§
+	buildInfoñ"
+
+
+É"Ä
+6
+!
+
+"
+coremltools-version
+	
+"
+8.2
+F
+.
+&
+$""
+ coremltools-component-tensorflow
+
+
+"
+2.13.0
