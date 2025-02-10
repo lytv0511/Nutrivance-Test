@@ -1,19 +1,2 @@
-<<<<<<< HEAD
-venv/lib
-=======
-# Ignore virtual environment
-venv/
-
-# Ignore compiled Python files
-__pycache__/
-
-# Ignore Jupyter Notebook checkpoints (if you use Jupyter)
-.ipynb_checkpoints/
-
-# Ignore environment-related files
-.env
-*.env
-
-# Ignore dependencies file if needed
-pip-log.txt
->>>>>>> a0011fe1665266c9682aa47646af78be0daac39b
+venv/lib/python3.11/site-packages/clang/native/libclang.dylib
+venv/lib/python3.11/site-packages/tensorflow/libtensorflow_cc.2.dylib
