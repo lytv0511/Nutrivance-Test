@@ -7,6 +7,7 @@ import coremltools as ct
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
+# Load the dataset
 df = pd.read_csv("health_nutrition_dataset_refined.csv")
 
 feature_columns = ["age", "tdee", "steps", "walking_running_minutes", "flights_climbed", "cardio_vo2max", "cardio_recovery_bpm"]
