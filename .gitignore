@@ -1,1 +1,19 @@
+<<<<<<< HEAD
 venv/lib
+=======
+# Ignore virtual environment
+venv/
+
+# Ignore compiled Python files
+__pycache__/
+
+# Ignore Jupyter Notebook checkpoints (if you use Jupyter)
+.ipynb_checkpoints/
+
+# Ignore environment-related files
+.env
+*.env
+
+# Ignore dependencies file if needed
+pip-log.txt
+>>>>>>> a0011fe1665266c9682aa47646af78be0daac39b
