@@ -40,46 +40,37 @@ X_test = preprocessor.transform(test_df[feature_columns])
 y_train = train_df[label_columns].values
 y_test = test_df[label_columns].values
 
-preprocessor_layer = layers.Lambda(lambda x: (x - preprocessor.mean_) / preprocessor.scale_)
-
-def resnet_block(x, units):
-    shortcut = layers.Dense(units)(x)
-    x = layers.Dense(units, activation='relu')(x)
-    x = layers.Dense(units)(x)
-    x = layers.add([x, shortcut])
-    x = layers.ReLU()(x)
+def transformer_encoder(inputs, head_size=64, num_heads=4, ff_dim=128, dropout=0.1):
+    x = layers.LayerNormalization(epsilon=1e-6)(inputs)
+    x = layers.Reshape((1, inputs.shape[-1]))(x)  # Reshape to 3D (batch, 1, features)
+    x = layers.MultiHeadAttention(key_dim=head_size, num_heads=num_heads, dropout=dropout)(x, x)
+    x = layers.Dropout(dropout)(x)
+    x = layers.Add()([x, layers.Reshape((inputs.shape[-1],))(inputs)])  # Residual connection
+    x = layers.LayerNormalization(epsilon=1e-6)(x)
+    x = layers.Dense(ff_dim, activation='relu')(x)
+    x = layers.Dropout(dropout)(x)
+    x = layers.Dense(inputs.shape[-1])(x)
     return x
 
 input_layer = layers.Input(shape=(len(feature_columns),))
-x = preprocessor_layer(input_layer)
-x = resnet_block(x, 128)
+x = layers.Dense(128, activation='relu')(input_layer)
+x = transformer_encoder(x)
 x = layers.Dropout(0.2)(x)
-x = resnet_block(x, 128)
+x = transformer_encoder(x)
 x = layers.Dropout(0.2)(x)
 x = layers.Dense(64, activation='relu')(x)
-output = layers.Dense(len(label_columns), activation='linear')(x)
+output = layers.Dense(len(label_columns), activation='linear')(x)  # Linear activation, no softmax
 
 full_model = keras.Model(inputs=input_layer, outputs=output)
 full_model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+print(full_model.summary())
 
-history = full_model.fit(train_df[feature_columns].values, y_train, validation_data=(test_df[feature_columns].values, y_test), epochs=500, batch_size=32)
+history = full_model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=500, batch_size=32)
 
-eval_results = full_model.evaluate(test_df[feature_columns].values, y_test)
+eval_results = full_model.evaluate(X_test, y_test)
 print("Test Loss, Test MAE:", eval_results)
 
-input_data = np.array([[28.0, 30.0, 5, 2, 10.0, 200.0, 100.0, 50.0, 80.0, 2, 350.0, 150.0, 20.0, 75.0, 80.0, 55.0, 30.0, 15.0, 22.0, 12.0, 5, 1, 4, 3.0, 2.0, 1.5]])
-input_data_standardized = preprocessor.transform(input_data)
-predicted_output = full_model.predict(input_data_standardized)
+tf.saved_model.save(full_model, "movement_prediction_transformer_model")
 
-input_df = pd.DataFrame(input_data, columns=feature_columns)
-predicted_df = pd.DataFrame(predicted_output, columns=label_columns)
-
-print("Input Data:")
-print(input_df)
-print("\nPredicted Output:")
-print(predicted_df)
-
-tf.saved_model.save(full_model, "nutrition_prediction_model")
-
-coreml_model = ct.convert("nutrition_prediction_model", source="tensorflow", inputs=[ct.TensorType(shape=(1, len(feature_columns)))], minimum_deployment_target=ct.target.iOS14)
-coreml_model.save("movement_prediction_model.mlpackage")
+coreml_model = ct.convert("movement_prediction_transformer_model", source="tensorflow", inputs=[ct.TensorType(shape=(1, len(feature_columns)))], minimum_deployment_target=ct.target.iOS14)
+coreml_model.save("movement_prediction_transformer_model.mlpackage")
