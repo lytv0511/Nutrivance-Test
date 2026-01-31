@@ -1,2 +1,6 @@
-venv/lib/python3.11/site-packages/clang/native/libclang.dylib
-venv/lib/python3.11/site-packages/tensorflow/libtensorflow_cc.2.dylib
+.DS_Store
+venv/
+__pycache__/
+*.pyc
+*.dylib
+*.jar
